@@ -5,6 +5,7 @@ import org.apache.flink.state.api.SavepointReader;
 import org.apache.flink.streaming.api.datastream.DataStream;;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.yellowleaf.flink.dataviewer.ReaderFunction;
+import org.apache.flink.statefun.flink.core.StatefulFunctionsJobConstants;
 
 public class App
 {
@@ -19,7 +20,7 @@ public class App
             SavepointReader savepoint = SavepointReader.read(env,
                                                              savepointPath,
                                                              new EmbeddedRocksDBStateBackend());
-            DataStream keyedState = savepoint.readKeyedState("functions_uid1",
+            DataStream keyedState = savepoint.readKeyedState(StatefulFunctionsJobConstants.FUNCTION_OPERATOR_UID,
                                                              new ReaderFunction(organization));
             keyedState.print();
 
